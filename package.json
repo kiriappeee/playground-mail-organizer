@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "imapflow": "^1.0.57"
+    "imapflow": "^1.0.57",
+    "mailparser": "^3.2.0"
   }
 }
