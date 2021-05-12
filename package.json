@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "imapflow": "^1.0.57",
-    "mailparser": "^3.2.0"
+    "mailparser": "^3.2.0",
+    "prompt": "^1.1.0"
   }
 }
