@@ -41,6 +41,9 @@ const sortMail = async () => {
     }
     console.log('All messages read. Now organizing');
     console.log(organizedMessages);
+    // sort based on config
+    // Mails not marked as conversations are marked as read
+    // before moving them into their relevant folder
     for (let i = 0; i<organizedMessages.length; i++){
       const fromAddress = organizedMessages[i].sender;
       const uid = organizedMessages[i].uid;
@@ -48,7 +51,6 @@ const sortMail = async () => {
       if (sortedMailConfig[fromAddress] !== undefined){
         let sortConfig = sortedMailConfig[fromAddress];
         if (sortConfig === 'o'){
-          //screened out
           console.log('Screened out');
           console.log(uid);
           console.log('Marking message as read');
@@ -98,9 +100,6 @@ const sortMail = async () => {
     return '';
   }
 };
-// Check the config value
-// If present, move based on the set value
-// If not screened into conversations, then mark as read, and then move
 
 sortMail().then((res) => {
   console.log(res)
