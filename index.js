@@ -28,6 +28,7 @@ const getMail = async () => {
       envelope: true,
     });
     console.log(message.envelope.from);
+    console.log(message.uid)
     console.log('Fetching all unread mail');
     for await (let msg of client.fetch('1:*', {envelope: true})){
       fromAddress = msg.envelope.from[0].address
@@ -44,7 +45,7 @@ Sender: ${msg.envelope.from[0].name} (${msg.envelope.from[0].address})`);
           name: 'screenOption',
           description: `What do you want to do for this sender?
   o (screen out)
-  c(screen to conversations)
+  c (screen to conversations)
   f (screen to feed)
   p (screen to paper trail)
   i (ignore for now)`
@@ -67,9 +68,9 @@ Sender: ${msg.envelope.from[0].name} (${msg.envelope.from[0].address})`);
     console.log('\nClosing mailbox');
     await client.mailboxClose();
     console.log('Mailbox closed');
+    await client.logout();
+    return '';
   }
-  await client.logout();
-  return '';
 }
 
 getMail().then((res) => {
