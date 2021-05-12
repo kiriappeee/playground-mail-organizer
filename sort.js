@@ -24,15 +24,6 @@ const sortMail = async () => {
   await client.mailboxOpen('Inbox');
   console.log('Inbox opened');
   try {
-    // console.log('Fetching single mail');
-    // let message = await client.fetchOne("254", {
-    //   envelope: true,
-    // }, {uid: true});
-    // console.log('Attemtping to mark a mail as read');
-    // await client.messageFlagsAdd("186",
-    // ['\\Seen'],
-    // {uid:true});
-    // console.log('Done');
     let organizedMessages = []
     for await (let message of client.fetch('1:*', {envelope: true})){
       const fromAddress = message.envelope.from[0].address
