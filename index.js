@@ -1,7 +1,6 @@
 const { ImapFlow } = require('imapflow');
 
 const config = require('./config.prod');
-console.log(config.password)
 const client = new ImapFlow({
   host: config.host,
   port: config.port,
@@ -10,22 +9,33 @@ const client = new ImapFlow({
     user: config.username,
     pass: config.password
   },
-  emitLogs: false
+  logger: {}
 });
 
+let sortedMailConfig = {};
 const getMail = async () => {
+  console.log('Connecting to client')
   await client.connect();
   console.log("Client connected");
-  let lock = await client.getMailboxLock('Inbox');
+  console.log('Opening inbox')
+  let mailbox = await client.mailboxOpen('Inbox');
+  console.log('Inbox opened');
   try{
-    let message = await client.fetchOne('*', {
+    console.log('Fetching single mail');
+    let message = await client.fetchOne("*", {
       envelope: true,
-      bodyStructure: true,
     });
     console.log(message.envelope.from);
-    console.log(message.bodyStructure.disposition);
+    console.log('Fetching all unread mail');
+    for await (let msg of client.fetch('1:*', {envelope: true})){
+      console.log(msg.uid);
+      console.log(msg.envelope.subject);
+      console.log(msg.envelope.from);
+    }
   } finally {
-    lock.release();
+    console.log('Closing mailbox');
+    await client.mailboxClose();
+    console.log('Mailbox closed');
   }
   await client.logout();
   return '';
