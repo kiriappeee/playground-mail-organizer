@@ -23,13 +23,7 @@ const getMail = async () => {
   let mailbox = await client.mailboxOpen('Inbox');
   console.log('Inbox opened');
   try{
-    console.log('Fetching single mail');
-    let message = await client.fetchOne("*", {
-      envelope: true,
-    });
-    console.log(message.envelope.from);
-    console.log(message.uid)
-    console.log('Fetching all unread mail');
+    console.log('Fetching all inbox mail');
     for await (let msg of client.fetch('1:*', {envelope: true})){
       fromAddress = msg.envelope.from[0].address
       console.log(`-----------------------------------------------------------
